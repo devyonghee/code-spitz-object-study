@@ -8,5 +8,9 @@ public class Movie {
         this.fee = fee;
     }
 
+    public Long getFee() {
+        return fee;
+    }
+
 
 }

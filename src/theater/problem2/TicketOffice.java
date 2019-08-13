@@ -7,7 +7,8 @@ public class TicketOffice {
     private Long amount;
     private List<Ticket> tickets = new ArrayList<>();
 
-    public TicketOffice(Long amount) {
+    public TicketOffice(Theater theater, Long amount) {
+        theater.setTicketOffices(this);
         this.amount = amount;
     }
 
