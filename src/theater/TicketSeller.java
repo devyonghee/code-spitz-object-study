@@ -1,4 +1,4 @@
-package theater.origin;
+package theater;
 
 public class TicketSeller {
     private TicketOffice ticketOffice;

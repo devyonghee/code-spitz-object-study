@@ -1,4 +1,4 @@
-package theater.origin;
+package theater;
 
 public class Ticket {
     // 이펙티브 자바 (null 객체 패턴)

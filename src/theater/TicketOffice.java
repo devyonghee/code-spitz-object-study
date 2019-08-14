@@ -1,4 +1,4 @@
-package theater.problem1;
+package theater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,7 @@ public class TicketOffice {
     private Long amount;
     private List<Ticket> tickets = new ArrayList<>();
 
-    public TicketOffice(Theater theater, Long amount) {
-        theater.setTicketOffices(this);
+    public TicketOffice(Long amount) {
         this.amount = amount;
     }
 

@@ -1,4 +1,4 @@
-package theater.origin;
+package theater;
 
 public class Invitation {
     final static public Invitation EMPTY = new Invitation(null);

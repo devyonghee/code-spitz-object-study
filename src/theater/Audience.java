@@ -1,4 +1,4 @@
-package theater.problem1;
+package theater;
 
 class Audience {
     private Ticket ticket = Ticket.EMPTY;
