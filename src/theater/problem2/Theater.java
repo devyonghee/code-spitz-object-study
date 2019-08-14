@@ -7,15 +7,8 @@ import java.util.List;
 class Theater {
     final private List<TicketOffice> ticketOffices = new ArrayList<>();
     final private List<Movie> movies = new ArrayList<>();
-    final private Long fee;
 
-    public Theater(Long fee) {
-        this.fee = fee;
-    }
-
-    Long getFee() {
-        return this.fee;
-    }
+    public Theater() {}
 
     public void setTicketOffices(TicketOffice... ticketOffices) {
         Collections.addAll(this.ticketOffices, ticketOffices);
@@ -32,13 +25,13 @@ class Theater {
     }
 
     // Invitation 도 마찬가지로 Theater가 theater.Audience 만들어서 제공을 한다.
-    public void setInvitation(Audience audience, Movie movie1) {
-        audience.setInvitation(new Invitation(this, movie1));
+    public void setInvitation(Audience audience, Movie movie) {
+        audience.setInvitation(new Invitation(this, movie));
     }
 
-    public boolean enter(Audience audience) {
+    public boolean enter(Audience audience, Movie movie) {
         Ticket ticket = audience.getTicket();
-        return ticket.isValid(this);
+        return ticket.isValid(this, movie);
     }
 
     public void setMovie(Movie movie) {

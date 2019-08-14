@@ -2,6 +2,7 @@ package theater.problem2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TicketOffice {
     private Long amount;
@@ -16,22 +17,25 @@ public class TicketOffice {
         this.tickets.add(ticket);
     }
 
-    public Ticket getTicketWithFee() {
-        if (tickets.size() == 0) return Ticket.EMPTY;
+    public Ticket getTicketWithFee(Movie movie) {
+        Optional<Ticket> ticket = tickets.stream().filter(tic -> tic.getMovie() == movie).findFirst();
+        if (!ticket.isPresent()) return Ticket.EMPTY;
         else {
-            Ticket ticket = tickets.remove(0);
-            amount += ticket.getFee();
-            return ticket;
+            Ticket removedTicket = tickets.remove(tickets.indexOf(ticket.get()));
+            amount += removedTicket.getFee();
+            return removedTicket;
         }
     }
 
-    public Ticket getTicketWithNoFee() {
-        if (tickets.size() == 0) return Ticket.EMPTY;
-        else return tickets.remove(0);
+    public Ticket getTicketWithNoFee(Movie movie) {
+        Optional<Ticket> ticket = tickets.stream().filter(tic -> tic.getMovie() == movie).findFirst();
+        if (!ticket.isPresent()) return Ticket.EMPTY;
+        else return tickets.remove(tickets.indexOf(ticket.get()));
     }
 
-    public Long getTicketPrice() {
-        if (tickets.size() == 0) return 0L;
-        else return tickets.get(0).getFee();
+    public Long getTicketPrice(Movie movie) {
+        Optional<Ticket> ticket = tickets.stream().filter(tic -> tic.getMovie() == movie).findFirst();
+        if (!ticket.isPresent()) return 0L;
+        else return ticket.get().getFee();
     }
 }

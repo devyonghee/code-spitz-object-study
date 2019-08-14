@@ -7,15 +7,15 @@ public class TicketSeller {
         this.ticketOffice = ticketOffice;
     }
 
-    public Ticket getTicket(Audience audience) {
+    public Ticket getTicket(Audience audience, Movie movie) {
         Ticket ticket = Ticket.EMPTY;
         if (audience.getInvitation() != Invitation.EMPTY) {
-            ticket = ticketOffice.getTicketWithNoFee();
+            ticket = ticketOffice.getTicketWithNoFee(movie);
             if (ticket != Ticket.EMPTY) audience.removeInvitation();
         } else {
-            Long price = ticketOffice.getTicketPrice();
+            Long price = ticketOffice.getTicketPrice(movie);
             if (price > 0 && audience.hasAmount(price)) {
-                ticket = ticketOffice.getTicketWithFee();
+                ticket = ticketOffice.getTicketWithFee(movie);
                 if (ticket != Ticket.EMPTY) audience.minusAmount(price);
             }
         }

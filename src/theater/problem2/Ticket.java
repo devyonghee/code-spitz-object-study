@@ -17,13 +17,17 @@ public class Ticket {
     }
 
     // isEntered
-    public boolean isValid(Theater theater) {
-        if (isEntered || theater != this.theater || this == EMPTY) {
+    public boolean isValid(Theater theater, Movie movie) {
+        if (isEntered || theater != this.theater || movie != this.movie || this == EMPTY) {
             return false;
         } else {
             isEntered = true;
             return true;
         }
+    }
+
+    public Movie getMovie() {
+        return this.movie;
     }
 
     // pointer의 pointer의 pointer를 사용하는 중
