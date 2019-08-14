@@ -10,8 +10,8 @@ class Audience {
     }
 
     // 유일하게 바깥에 노출되는 메소드 다른 메소드들은 같은 패키지 내에서 사용되기 위한 접대하는 메소드이다.
-    public void buyTicket(TicketSeller seller) {
-        ticket = seller.getTicket(this);
+    public void buyTicket(TicketSeller seller, Movie movie) {
+        ticket = seller.getTicket(this, movie);
     }
 
     public boolean hasAmount(Long amount) {
