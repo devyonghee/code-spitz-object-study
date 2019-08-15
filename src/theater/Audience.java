@@ -1,11 +1,12 @@
 package theater;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 class Audience {
-    private List<Ticket> tickets;
-    private List<Invitation> invitations;
+    private List<Ticket> tickets = new ArrayList<>();
+    private List<Invitation> invitations = new ArrayList<>();
     private Long amount;
 
     public Audience(Long amount) {
@@ -14,7 +15,8 @@ class Audience {
 
     // 유일하게 바깥에 노출되는 메소드 다른 메소드들은 같은 패키지 내에서 사용되기 위한 접대하는 메소드이다.
     public void buyTicket(TicketSeller seller, Movie movie) {
-        this.tickets.add(seller.getTicket(this, movie));
+        Ticket ticket = seller.getTicket(this, movie);
+        if (!ticket.equals(Ticket.EMPTY)) this.tickets.add(ticket);
     }
 
     public boolean hasAmount(Long amount) {

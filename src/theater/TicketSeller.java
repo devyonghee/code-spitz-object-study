@@ -14,7 +14,7 @@ public class TicketSeller {
             if (ticket != Ticket.EMPTY) audience.removeInvitation(movie);
         } else {
             Long price = ticketOffice.getTicketPrice(movie);
-            if (price > 0 && audience.hasAmount(price)) {
+            if (price >= 0 && audience.hasAmount(price)) {
                 ticket = ticketOffice.getTicketWithFee(movie);
                 if (ticket != Ticket.EMPTY) audience.minusAmount(price);
             }
