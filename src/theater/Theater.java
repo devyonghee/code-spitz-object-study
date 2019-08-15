@@ -30,7 +30,7 @@ class Theater {
     }
 
     public boolean enter(Audience audience, Movie movie) {
-        Ticket ticket = audience.getTicket();
+        Ticket ticket = audience.getTicket(movie);
         return ticket.isValid(this, movie);
     }
 

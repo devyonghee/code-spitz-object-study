@@ -9,9 +9,9 @@ public class TicketSeller {
 
     public Ticket getTicket(Audience audience, Movie movie) {
         Ticket ticket = Ticket.EMPTY;
-        if (audience.getInvitation() != Invitation.EMPTY) {
+        if (audience.getInvitation(movie) != Invitation.EMPTY) {
             ticket = ticketOffice.getTicketWithNoFee(movie);
-            if (ticket != Ticket.EMPTY) audience.removeInvitation();
+            if (ticket != Ticket.EMPTY) audience.removeInvitation(movie);
         } else {
             Long price = ticketOffice.getTicketPrice(movie);
             if (price > 0 && audience.hasAmount(price)) {

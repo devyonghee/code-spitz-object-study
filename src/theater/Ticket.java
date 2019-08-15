@@ -35,4 +35,8 @@ public class Ticket {
     public Long getFee() {
         return movie.getFee();
     }
+
+    public boolean isMovie(Movie movie) {
+        return movie.equals(this.movie);
+    }
 }

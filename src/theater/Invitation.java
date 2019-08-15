@@ -9,4 +9,8 @@ public class Invitation {
         this.theater = theater;
         this.movie = movie;
     }
+
+    public boolean isMovie(Movie movie) {
+        return movie.equals(this.movie);
+    }
 }
