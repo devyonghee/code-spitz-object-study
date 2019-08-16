@@ -9,6 +9,7 @@ public class MainTest {
     public void 정상적으로_구매한_관객_입장_테스트() {
         Theater theater = new Theater();
         Movie movie = new Movie(100L);
+        Movie movie2 = new Movie(100L);
         theater.setMovie(movie);
 
         TicketOffice ticketOffice = new TicketOffice(theater, 0L);
@@ -20,8 +21,8 @@ public class MainTest {
         seller.setTicketOffice(ticketOffice);
         theater.setInvitation(audience, movie);
 
-        audience.buyTicket(seller, movie);
         assertThat(theater.enter(audience, movie)).isTrue();
+        assertThat(theater.enter(audience, movie2)).isFalse();
     }
 
 

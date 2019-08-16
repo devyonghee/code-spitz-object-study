@@ -40,9 +40,8 @@ class Audience {
     }
 
     public Ticket getTicket(Movie movie) {
-        Optional<Ticket> first = this.tickets.stream().filter(ticket -> ticket.isMovie(movie)).findFirst();
-        if (!first.isPresent()) return Ticket.EMPTY;
-        return this.tickets.remove(this.tickets.indexOf(first.get()));
+        Optional<Ticket> first = this.tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
+        return first.orElse(Ticket.EMPTY);
     }
 
     public void setInvitation(Invitation invitation) {

@@ -1,7 +1,7 @@
 package theater;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 class Theater {
@@ -11,7 +11,7 @@ class Theater {
     public Theater() {}
 
     public void setTicketOffices(TicketOffice... ticketOffices) {
-        Collections.addAll(this.ticketOffices, ticketOffices);
+        this.ticketOffices.addAll(Arrays.asList(ticketOffices));
     }
 
     // ticketOffices 에 Theater가 생성한 Ticket을 추가해준다.
@@ -34,7 +34,7 @@ class Theater {
         return ticket.isValid(this, movie);
     }
 
-    public void setMovie(Movie movie) {
-        this.movies.add(movie);
+    public void setMovie(Movie... movies) {
+        this.movies.addAll(Arrays.asList(movies));
     }
 }

@@ -1,5 +1,7 @@
 package theater;
 
+import java.io.InvalidObjectException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +30,12 @@ public class TicketOffice {
     }
 
     public Ticket getTicketWithNoFee(Movie movie) {
-        Optional<Ticket> ticket = tickets.stream().filter(tic -> tic.getMovie() == movie).findFirst();
-        if (!ticket.isPresent()) return Ticket.EMPTY;
-        else return tickets.remove(tickets.indexOf(ticket.get()));
+        Optional<Ticket> first = tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
+        return tickets.remove(tickets.indexOf(first.orElseThrow(InvalidParameterException::new)));
     }
 
-    public Long getTicketPrice(Movie movie) {
-        Optional<Ticket> ticket = tickets.stream().filter(tic -> tic.getMovie() == movie).findFirst();
-        if (!ticket.isPresent()) return 0L;
-        else return ticket.get().getFee();
+    public Long getTicketPrice(Movie movie) throws InvalidParameterException {
+        Optional<Ticket> first = tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
+        return first.orElseThrow(InvalidParameterException::new).getFee();
     }
 }

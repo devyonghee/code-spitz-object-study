@@ -36,7 +36,7 @@ public class Ticket {
         return movie.getFee();
     }
 
-    public boolean isMovie(Movie movie) {
-        return movie.equals(this.movie);
+    public boolean isUnusedMovieTicket(Movie movie) {
+        return movie.equals(this.movie) && !this.isEntered;
     }
 }
