@@ -19,19 +19,9 @@ class Audience {
         if (!ticket.equals(Ticket.EMPTY)) this.tickets.add(ticket);
     }
 
-    public boolean hasAmount(Long amount) {
-        return this.amount >= amount;
-    }
-
-    public boolean minusAmount(Long amount) {
-        if (amount > this.amount) return false;
-        this.amount -= amount;
-        return true;
-    }
-
-    public Invitation getInvitation(Movie movie) {
-        Optional<Invitation> first = this.invitations.stream().filter(invitation -> invitation.isMovie(movie)).findFirst();
-        return first.orElse(Invitation.EMPTY);
+    public void minusAmount(Movie movie) {
+        if (movie.getFee() > this.amount) return;
+        this.amount -= movie.getFee();
     }
 
     public void removeInvitation(Movie movie) {
@@ -46,5 +36,14 @@ class Audience {
 
     public void setInvitation(Invitation invitation) {
         this.invitations.add(invitation);
+    }
+
+    public boolean hasInvitation(Movie movie) {
+        Optional<Invitation> first = this.invitations.stream().filter(invitation -> invitation.isMovie(movie)).findFirst();
+        return !first.orElse(Invitation.EMPTY).equals(Invitation.EMPTY);
+    }
+
+    public boolean enoughAmount(Movie movie) {
+        return this.amount >= movie.getFee();
     }
 }

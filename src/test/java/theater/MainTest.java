@@ -21,6 +21,7 @@ public class MainTest {
         seller.setTicketOffice(ticketOffice);
         theater.setInvitation(audience, movie);
 
+        audience.buyTicket(seller, movie);
         assertThat(theater.enter(audience, movie)).isTrue();
         assertThat(theater.enter(audience, movie2)).isFalse();
     }

@@ -1,7 +1,5 @@
 package theater;
 
-import java.io.InvalidObjectException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,22 +18,20 @@ public class TicketOffice {
     }
 
     public Ticket getTicketWithFee(Movie movie) {
-        Optional<Ticket> ticket = tickets.stream().filter(tic -> tic.getMovie() == movie).findFirst();
-        if (!ticket.isPresent()) return Ticket.EMPTY;
-        else {
-            Ticket removedTicket = tickets.remove(tickets.indexOf(ticket.get()));
-            amount += removedTicket.getFee();
-            return removedTicket;
-        }
+        Optional<Ticket> first = findTicket(movie);
+        if (!first.isPresent()) return Ticket.EMPTY;
+
+        amount += movie.getFee();
+        return tickets.remove(tickets.indexOf(first.get()));
     }
 
     public Ticket getTicketWithNoFee(Movie movie) {
-        Optional<Ticket> first = tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
-        return tickets.remove(tickets.indexOf(first.orElseThrow(InvalidParameterException::new)));
+        Optional<Ticket> first = findTicket(movie);
+        if (!first.isPresent()) return Ticket.EMPTY;
+        return tickets.remove(tickets.indexOf(first.get()));
     }
 
-    public Long getTicketPrice(Movie movie) throws InvalidParameterException {
-        Optional<Ticket> first = tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
-        return first.orElseThrow(InvalidParameterException::new).getFee();
+    private Optional<Ticket> findTicket(Movie movie) {
+        return tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
     }
 }

@@ -12,5 +12,7 @@ public class Movie {
         return fee;
     }
 
-
+    public boolean isFree() {
+        return this.fee <= 0;
+    }
 }
