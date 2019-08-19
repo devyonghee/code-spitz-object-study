@@ -1,35 +1,19 @@
 package theater;
 
-import java.security.InvalidParameterException;
-
 public class TicketSeller {
     private TicketOffice ticketOffice;
 
-    public void setTicketOffice(TicketOffice ticketOffice) {
+    public void setTicketOffice(TicketOffice ticketOffice){
         this.ticketOffice = ticketOffice;
     }
 
-    public Ticket getTicket(Audience audience, Movie movie) {
-        try {
-            if (movie.isFree()) {
-                return ticketOffice.getTicketWithNoFee(movie);
-            }
-
-            if (audience.hasInvitation(movie)) {
-                Ticket ticket = ticketOffice.getTicketWithNoFee(movie);
-                if (ticket != Ticket.EMPTY) audience.removeInvitation(movie);
-                return ticket;
-            }
-
-            if (audience.enoughAmount(movie)) {
-                Ticket ticket = ticketOffice.getTicketWithFee(movie);
-                if (ticket != Ticket.EMPTY) audience.minusAmount(movie);
-                return ticket;
-            }
-
-        } catch (InvalidParameterException ignored) {
+    Reservation reserve(Customer customer, Theater theater, Movie movie, Screening screening, int count){
+        Reservation reservation = Reservation.NONE;
+        Money price = movie.calculateFee(screening, count);
+        if(customer.hasAmount(price)){
+            reservation = ticketOffice.reserve(theater,movie,screening,count);
+            if(reservation != Reservation.NONE) customer.minusAmount(price);
         }
-
-        return Ticket.EMPTY;
+        return reservation;
     }
 }

@@ -1,18 +1,30 @@
 package theater;
 
-public class Movie {
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-    final private Long fee;
+public class Movie<T extends DiscountPolicy & DiscountCondition> {
+    private final String title;
+    private final Duration runningTime;
+    private final Money fee;
+    private final Set<T> discountConditions = new HashSet<>();
 
-    public Movie(Long fee) {
+
+    public Movie(String title, Duration runningTime, Money fee, T... conditions) {
+        this.title = title;
+        this.runningTime = runningTime;
         this.fee = fee;
+        this.discountConditions.addAll(Arrays.asList(conditions));
     }
 
-    public Long getFee() {
+    Money calculateFee(Screening screening, int audienceCount) {
+        for (T condition : discountConditions) {
+            if (condition.isSatisfiedBy(screening, audienceCount)) {
+                return condition.calculateFee(fee).multi((double) audienceCount);
+            }
+        }
         return fee;
-    }
-
-    public boolean isFree() {
-        return this.fee <= 0;
     }
 }

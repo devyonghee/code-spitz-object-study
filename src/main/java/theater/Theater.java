@@ -1,40 +1,63 @@
 package theater;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.beans.Customizer;
+import java.util.*;
 
 class Theater {
-    final private List<TicketOffice> ticketOffices = new ArrayList<>();
-    final private List<Movie> movies = new ArrayList<>();
+    public static final Set<Screening> EMPTY = new HashSet<>();
+    private final Set<TicketOffice> ticketOffices = new HashSet<>();
+    private final Map<Movie, Set<Screening>> movies = new HashMap<>();
+    private Money amount;
 
-    public Theater() {}
-
-    public void setTicketOffices(TicketOffice... ticketOffices) {
-        this.ticketOffices.addAll(Arrays.asList(ticketOffices));
+    public Theater(Money amount) {
+        this.amount = amount;
     }
 
-    // ticketOffices 에 Theater가 생성한 Ticket을 추가해준다.
-    public void setTicket(TicketOffice ticketOffice, Movie movie, Long num) {
-        if (!ticketOffices.contains(ticketOffice) || !movies.contains(movie)) return;
-        while (num-- > 0) {
-            // Ticket 에는 반드시 객체를 구별하기 위해서 객체 식별자를 넣어 주어야 한다.
-            // name 같은 값을 넣으면 name 만으로 다른 극장을 구분하기 힘들어진다.
-            ticketOffice.addTicket(new Ticket(this, movie));
-        }
+    public boolean addMovie(Movie movie) {
+        if (this.movies.containsKey(movie)) return false;
+        movies.put(movie, new HashSet<>());
+        return true;
     }
 
-    // Invitation 도 마찬가지로 Theater가 theater.Audience 만들어서 제공을 한다.
-    public void setInvitation(Audience audience, Movie movie) {
-        audience.setInvitation(new Invitation(this, movie));
+    public boolean addScreening(Movie movie, Screening screening) {
+        if (!this.movies.containsKey(movie)) return false;
+        return movies.get(movie).add(screening);
     }
 
-    public boolean enter(Audience audience, Movie movie) {
-        Ticket ticket = audience.getTicket(movie);
-        return ticket.isValid(this, movie);
+    public boolean contractTicketOffice(TicketOffice ticketOffice, Double rate) {
+        if (!ticketOffice.contract(this, rate)) return false;
+        return this.ticketOffices.add(ticketOffice);
     }
 
-    public void setMovie(Movie... movies) {
-        this.movies.addAll(Arrays.asList(movies));
+    public boolean cancelTicketOffice(TicketOffice ticketOffice) {
+        if (!this.ticketOffices.contains(ticketOffice) || !ticketOffice.cancel(this)) return false;
+        return this.ticketOffices.remove(ticketOffice);
+    }
+
+    void plusAmount(Money amount) {
+        this.amount = this.amount.plus(amount);
+    }
+
+    public Set<Screening> getScreening(Movie movie) {
+        if (!this.movies.containsKey(movie) || this.movies.get(movie).size() == 0) return EMPTY;
+        return this.movies.get(movie);
+    }
+
+    boolean isValidScreening(Movie movie, Screening screening) {
+        return movies.containsKey(movie) && movies.get(movie).contains(screening);
+    }
+
+    public boolean enter(Customer customer, int count) {
+        Reservation reservation = customer.reservation;
+        return reservation != Reservation.NONE &&
+                reservation.theater != this &&
+                isValidScreening(reservation.movie, reservation.screening) &&
+                reservation.count == count;
+    }
+
+    Reservation reserve(Movie movie, Screening screening, int count) {
+        if (!isValidScreening(movie, screening) || !screening.hasSeat(count)) return Reservation.NONE;
+        screening.reserveSeat(count);
+        return new Reservation(this, movie, screening, count);
     }
 }

@@ -1,37 +1,40 @@
 package theater;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class TicketOffice {
-    private Long amount;
-    private List<Ticket> tickets = new ArrayList<>();
+    private Money amount;
+    private Map<Theater, Double> commissionRate = new HashMap<>();
 
-    public TicketOffice(Theater theater, Long amount) {
-        theater.setTicketOffices(this);
+    public TicketOffice(Money amount) {
         this.amount = amount;
     }
 
-    public void addTicket(Ticket ticket) {
-        this.tickets.add(ticket);
+    boolean contract(Theater theater, Double rate) {
+        if (commissionRate.containsKey(theater)) return false;
+        commissionRate.put(theater, rate);
+        return true;
     }
 
-    public Ticket getTicketWithFee(Movie movie) {
-        Optional<Ticket> first = findTicket(movie);
-        if (!first.isPresent()) return Ticket.EMPTY;
-
-        amount += movie.getFee();
-        return tickets.remove(tickets.indexOf(first.get()));
+    boolean cancel(Theater theater) {
+        if (!commissionRate.containsKey(theater)) return false;
+        commissionRate.remove(theater);
+        return true;
     }
 
-    public Ticket getTicketWithNoFee(Movie movie) {
-        Optional<Ticket> first = findTicket(movie);
-        if (!first.isPresent()) return Ticket.EMPTY;
-        return tickets.remove(tickets.indexOf(first.get()));
-    }
+    Reservation reserve(Theater theater, Movie movie, Screening screening, int count) {
+        if (!commissionRate.containsKey(theater) ||
+                !theater.isValidScreening(movie, screening) ||
+                !screening.hasSeat(count)
+        ) return Reservation.NONE;
 
-    private Optional<Ticket> findTicket(Movie movie) {
-        return tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
+        Reservation reservation = theater.reserve(movie, screening, count);
+        if (reservation != Reservation.NONE) {
+            Money sales = movie.calculateFee(screening, count);
+            Money commission = sales.multi(commissionRate.get(theater));
+            amount = amount.plus(commission);
+            theater.plusAmount(sales.minus(commission));
+        }
+        return reservation;
     }
 }
