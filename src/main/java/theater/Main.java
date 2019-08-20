@@ -1,13 +1,15 @@
 package theater;
 
 public class Main {
+    // 마지막 theater예제에서
+    // TicketOffice는 암묵적으로 하나의 극장하고만 계약하고 있다는 가정이 있게 구현되어있다.
+    // 코드 상 이 조건을 강제하도록 개선하라.
     public static void main(String[] args) {
         Theater theater = new Theater(100L);
         Audience audience1 = new Audience(0L);
         Audience audience2 = new Audience(50L);
-        TicketOffice ticketOffice = new TicketOffice(0L);
+        TicketOffice ticketOffice = new TicketOffice(0L, theater);
         TicketSeller seller = new TicketSeller();
-        theater.setTicketOffices(ticketOffice);
         theater.setTicket(ticketOffice, 10L);
         theater.setInvitation(audience1);
         seller.setTicketOffice(ticketOffice);
