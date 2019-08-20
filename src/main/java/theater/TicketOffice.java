@@ -7,31 +7,24 @@ import java.util.Optional;
 public class TicketOffice {
     private Long amount;
     private List<Ticket> tickets = new ArrayList<>();
-
-    public TicketOffice(Theater theater, Long amount) {
-        theater.setTicketOffices(this);
-        this.amount = amount;
-    }
-
-    public void addTicket(Ticket ticket) {
+    public TicketOffice(Long amount){this.amount = amount;}
+    public void addTicket(Ticket ticket){
         this.tickets.add(ticket);
     }
-
-    public Ticket getTicketWithFee(Movie movie) {
-        Optional<Ticket> first = findTicket(movie);
-        if (!first.isPresent()) return Ticket.EMPTY;
-
-        amount += movie.getFee();
-        return tickets.remove(tickets.indexOf(first.get()));
+    public Ticket getTicketWithFee(){
+        if(tickets.size() == 0) return Ticket.EMPTY;
+        else{
+            Ticket ticket = tickets.remove(0);
+            amount += ticket.getFee();
+            return ticket;
+        }
     }
-
-    public Ticket getTicketWithNoFee(Movie movie) {
-        Optional<Ticket> first = findTicket(movie);
-        if (!first.isPresent()) return Ticket.EMPTY;
-        return tickets.remove(tickets.indexOf(first.get()));
+    public Ticket getTicketWithNoFee(){
+        if(tickets.size() == 0) return Ticket.EMPTY;
+        else return tickets.remove(0);
     }
-
-    private Optional<Ticket> findTicket(Movie movie) {
-        return tickets.stream().filter(ticket -> ticket.isUnusedMovieTicket(movie)).findFirst();
+    public Long getTicketPrice(){
+        if(tickets.size() == 0) return 0L;
+        else return tickets.get(0).getFee();
     }
 }

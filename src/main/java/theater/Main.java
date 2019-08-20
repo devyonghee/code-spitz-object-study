@@ -8,21 +8,20 @@ public class Main {
     // 초대권, 특정 영화만 가능하도록 변경
     // 티켓, 특정 영화에 종속
     public static void main(String[] args) {
-        Movie movie1 = new Movie(100L);
-        Theater theater = new Theater();
+        Theater theater = new Theater(100L);
         Audience audience1 = new Audience(0L);
         Audience audience2 = new Audience(50L);
-        TicketOffice ticketOffice = new TicketOffice(theater, 0L);
+        TicketOffice ticketOffice = new TicketOffice(0L);
         TicketSeller seller = new TicketSeller();
-        theater.setMovie(movie1);
-        theater.setTicket(ticketOffice, movie1, 10L);
-        theater.setInvitation(audience1, movie1);
+        theater.setTicketOffices(ticketOffice);
+        theater.setTicket(ticketOffice, 10L);
+        theater.setInvitation(audience1);
         seller.setTicketOffice(ticketOffice);
-        audience1.buyTicket(seller, movie1);
-        audience2.buyTicket(seller, movie1);
-        boolean isOk1 = theater.enter(audience1, movie1);
-        boolean isOk2 = theater.enter(audience2, movie1);
-        System.out.println(isOk1);  // True
-        System.out.println(isOk2);  // False
+        audience1.buyTicket(seller);
+        audience2.buyTicket(seller);
+        boolean isOk1 = theater.enter(audience1);
+        boolean isOk2 = theater.enter(audience2);
+        System.out.println(isOk1);
+        System.out.println(isOk2);
     }
 }
