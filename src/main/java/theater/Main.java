@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class Main {
     public static void main(String[] args) {
         Theater theater = new Theater(Money.of(100.0));
-        Movie<AmountDiscount> movie = new Movie<AmountDiscount>(
+        Movie<AmountDiscount> movie = new Movie<>(
                 "spidermain",
                 Duration.ofMinutes(120L),
                 Money.of(5000.0),
@@ -33,11 +33,9 @@ public class Main {
         Customer customer = new Customer(Money.of(0.0));
 
         TicketSeller seller = new TicketSeller();
-        for(Screening screening: theater.getScreening(movie)){
-            customer.reserve(seller, theater, movie, screening, 2);
-            boolean isOk = theater.enter(customer, 2);
-            System.out.println(isOk);
-            break;
-        }
+        Screening screening = theater.getScreening(movie).iterator().next();
+        customer.reserve(seller, theater, movie, screening, 2);
+        boolean isOk = theater.enter(customer, 2);
+        System.out.println(isOk);
     }
 }
