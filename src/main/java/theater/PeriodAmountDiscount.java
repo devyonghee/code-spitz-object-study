@@ -16,6 +16,6 @@ public class PeriodAmountDiscount extends AmountDiscount {
     @Override
     public boolean isSatisfiedBy(Screening screening, int audienceCount) {
         LocalDateTime end = this.start.plus(duration);
-        return start.isAfter(screening.whenScreened) && end.isBefore(screening.whenScreened);
+        return screening.whenScreened.isAfter(start) && screening.whenScreened.isBefore(end);
     }
 }

@@ -1,7 +1,9 @@
 package theater;
 
-import java.beans.Customizer;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 class Theater {
     public static final Set<Screening> EMPTY = new HashSet<>();
@@ -50,7 +52,7 @@ class Theater {
     public boolean enter(Customer customer, int count) {
         Reservation reservation = customer.reservation;
         return reservation != Reservation.NONE &&
-                reservation.theater != this &&
+                reservation.theater == this &&
                 isValidScreening(reservation.movie, reservation.screening) &&
                 reservation.count == count;
     }

@@ -4,6 +4,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Main {
+    //본 예제에서는 Sequence를 통한 할인조건만 구현되어 있다.
+    // Period 및 한번에 예약하는 사람의 수가 일정수를
+    // 넘어가면 할인해주는 Count 조건에 따른 할인조건을 구현하라.
     public static void main(String[] args) {
         Theater theater = new Theater(Money.of(100.0));
         Movie<AmountDiscount> movie = new Movie<>(
@@ -33,6 +36,8 @@ public class Main {
         Customer customer = new Customer(Money.of(0.0));
 
         TicketSeller seller = new TicketSeller();
+        seller.setTicketOffice(ticketOffice);
+
         Screening screening = theater.getScreening(movie).iterator().next();
         customer.reserve(seller, theater, movie, screening, 2);
         boolean isOk = theater.enter(customer, 2);
