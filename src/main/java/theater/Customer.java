@@ -8,8 +8,8 @@ public class Customer {
         this.amount = amount;
     }
 
-    public void reserve(TicketSeller seller, Theater theater, Movie movie, Screening screening, int count) {
-        reservation = seller.reserve(this, theater, movie, screening, count);
+    public void reserve(TicketSeller seller, Theater theater, Movie movie, ScreeningPlace screeningPlace, Screening screening, int count) {
+        reservation = seller.reserve(this, theater, movie, screeningPlace, screening, count);
     }
 
     boolean hasAmount(Money amount) {
