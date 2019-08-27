@@ -9,7 +9,8 @@ public class Customer {
     }
 
     public void reserve(TicketSeller seller, Theater theater, Movie movie, ScreeningPlace screeningPlace, Screening screening, int count) {
-        reservation = seller.reserve(this, theater, movie, screeningPlace, screening, count);
+        RequestOrder requestOrder = new RequestOrder(movie, screeningPlace, screening, count);
+        reservation = seller.reserve(this, theater, requestOrder);
     }
 
     boolean hasAmount(Money amount) {

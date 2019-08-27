@@ -9,8 +9,8 @@ public class SequenceAmountDiscount extends AmountDiscount {
     }
 
     @Override
-    public boolean isSatisfiedBy(Screening screening, int audienceCount) {
-        return screening.sequence == sequence;
+    public boolean isSatisfiedBy(RequestOrder requestOrder) {
+        return requestOrder.equalsScreeningSequence(sequence);
     }
 
 

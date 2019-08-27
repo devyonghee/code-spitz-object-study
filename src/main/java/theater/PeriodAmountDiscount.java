@@ -1,5 +1,7 @@
 package theater;
 
+import sun.misc.Request;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -14,8 +16,8 @@ public class PeriodAmountDiscount extends AmountDiscount {
     }
 
     @Override
-    public boolean isSatisfiedBy(Screening screening, int audienceCount) {
+    public boolean isSatisfiedBy(RequestOrder requestOrder) {
         LocalDateTime end = this.start.plus(duration);
-        return screening.whenScreened.isAfter(start) && screening.whenScreened.isBefore(end);
+        return requestOrder.isBetweenScreening(start, end);
     }
 }

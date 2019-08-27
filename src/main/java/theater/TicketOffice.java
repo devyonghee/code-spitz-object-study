@@ -22,9 +22,9 @@ public class TicketOffice {
         return true;
     }
 
-    Reservation reserve(Theater theater, Movie movie, ScreeningPlace screeningPlace, Screening screening, int count) {
+    Reservation reserve(Theater theater, RequestOrder requestOrder) {
         if (!commissionRate.containsKey(theater) ||
-                !theater.isValidScreening(movie, screening) ||
+                !theater.isValidScreening(requestOrder) ||
                 !screeningPlace.hasSeat(count)
         ) return Reservation.NONE;
 

@@ -50,6 +50,11 @@ class Theater {
         return screeningPlace.getScreening();
     }
 
+    boolean isValidScreening(RequestOrder requestOrder) {
+        requestOrder.isValidMovie(movies);
+        return movies.containsKey(movie) && movies.get(movie).hasScreenings(screening);
+    }
+
     boolean isValidScreening(Movie movie, Screening screening) {
         return movies.containsKey(movie) && movies.get(movie).hasScreenings(screening);
     }

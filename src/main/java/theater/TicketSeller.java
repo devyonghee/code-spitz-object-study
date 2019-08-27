@@ -7,11 +7,11 @@ public class TicketSeller {
         this.ticketOffice = ticketOffice;
     }
 
-    Reservation reserve(Customer customer, Theater theater, Movie movie, ScreeningPlace screeningPlace, Screening screening, int count) {
+    public Reservation reserve(Customer customer, Theater theater, RequestOrder requestOrder) {
         Reservation reservation = Reservation.NONE;
-        Money price = movie.calculateFee(screening, count);
+        Money price = requestOrder.calculateFee();
         if (customer.hasAmount(price)) {
-            reservation = ticketOffice.reserve(theater, movie, screeningPlace, screening, count);
+            reservation = ticketOffice.reserve(theater, requestOrder);
             if (reservation != Reservation.NONE) customer.minusAmount(price);
         }
         return reservation;

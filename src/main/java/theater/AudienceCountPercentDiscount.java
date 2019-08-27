@@ -9,7 +9,7 @@ public class AudienceCountPercentDiscount extends PercentDiscount {
     }
 
     @Override
-    public boolean isSatisfiedBy(Screening screening, int audienceCount) {
-        return this.audienceCount.compareTo(audienceCount) <= 0;
+    public boolean isSatisfiedBy(RequestOrder requestOrder) {
+        return requestOrder.isOverAudienceCount(this.audienceCount);
     }
 }

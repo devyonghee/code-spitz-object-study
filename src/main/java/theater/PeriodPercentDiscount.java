@@ -14,8 +14,8 @@ public class PeriodPercentDiscount extends PercentDiscount {
     }
 
     @Override
-    public boolean isSatisfiedBy(Screening screening, int audienceCount) {
+    public boolean isSatisfiedBy(RequestOrder requestOrder) {
         LocalDateTime end = this.start.plus(duration);
-        return start.isAfter(screening.whenScreened) && end.isBefore(screening.whenScreened);
+        return requestOrder.isBetweenScreening(start, end);
     }
 }

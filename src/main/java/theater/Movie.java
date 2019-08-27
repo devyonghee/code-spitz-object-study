@@ -19,10 +19,10 @@ public class Movie<T extends DiscountPolicy & DiscountCondition> {
         this.discountConditions.addAll(Arrays.asList(conditions));
     }
 
-    Money calculateFee(Screening screening, int audienceCount) {
+    Money calculateFee(RequestOrder order) {
         for (T condition : discountConditions) {
-            if (condition.isSatisfiedBy(screening, audienceCount)) {
-                return condition.calculateFee(fee).multi((double) audienceCount);
+            if (condition.isSatisfiedBy(order)) {
+                return condition.calculateFee(fee);
             }
         }
         return fee;

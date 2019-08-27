@@ -10,4 +10,12 @@ public class Screening {
         this.sequence = sequence;
         this.whenScreened = when;
     }
+
+    public boolean isBetween(LocalDateTime start, LocalDateTime end) {
+        return whenScreened.isAfter(start) && whenScreened.isBefore(end);
+    }
+
+    public boolean equalsSequence(int sequence) {
+        return this.sequence == sequence;
+    }
 }
