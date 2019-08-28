@@ -1,9 +1,9 @@
 package theater;
 
-abstract public class SequenceDiscount implements DiscountCondition {
+public class SequenceCondition implements DiscountCondition {
     private final int sequence;
 
-    SequenceDiscount(int sequence) {
+    public SequenceCondition(int sequence) {
         this.sequence = sequence;
     }
 

@@ -9,22 +9,16 @@ public class Movie<T extends DiscountPolicy & DiscountCondition> {
     private final String title;
     private final Duration runningTime;
     private final Money fee;
-    private final Set<T> discountConditions = new HashSet<>();
+    private final DiscountPolicy policy;
 
-
-    public Movie(String title, Duration runningTime, Money fee, T... conditions) {
+    public Movie(String title, Duration runningTime, Money fee, DiscountPolicy policy) {
         this.title = title;
         this.runningTime = runningTime;
         this.fee = fee;
-        this.discountConditions.addAll(Arrays.asList(conditions));
+        this.policy = policy;
     }
 
-    Money calculateFee(RequestOrder order) {
-        for (T condition : discountConditions) {
-            if (condition.isSatisfiedBy(order)) {
-                return condition.calculateFee(fee);
-            }
-        }
-        return fee;
+    Money calculateFee(Screening screening, int count) {
+        return policy.calculateFee(screening, count, fee);
     }
 }

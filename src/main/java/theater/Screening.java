@@ -3,19 +3,22 @@ package theater;
 import java.time.LocalDateTime;
 
 public class Screening {
+    private int seat;
     final int sequence;
     final LocalDateTime whenScreened;
 
-    public Screening(int sequence, LocalDateTime when) {
+    public Screening(int sequence, LocalDateTime when, int seat) {
         this.sequence = sequence;
         this.whenScreened = when;
+        this.seat = seat;
     }
 
-    public boolean isBetween(LocalDateTime start, LocalDateTime end) {
-        return whenScreened.isAfter(start) && whenScreened.isBefore(end);
+    boolean hasSeat(int count) {
+        return this.seat >= count;
     }
 
-    public boolean equalsSequence(int sequence) {
-        return this.sequence == sequence;
+    void reserveSeat(int count) {
+        if (hasSeat(count)) seat -= count;
+        else throw new RuntimeException("no seat");
     }
 }
