@@ -5,7 +5,4 @@ public abstract class Client implements Paper {
     Language language = new Language("kotlinJS");
     Programmer programmer;
 
-//    public void setProgrammer(Programmer programmer) {
-//        this.programmer = programmer;
-//    }
 }
