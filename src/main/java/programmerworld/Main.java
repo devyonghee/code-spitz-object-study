@@ -1,7 +1,5 @@
 package programmerworld;
 
-import com.sun.security.ntlm.Server;
-
 public class Main {
     public static void main(String[] args) {
         Director director = new Director();
@@ -48,5 +46,7 @@ public class Main {
                 return new Program[]{frontEnd.getProgram(this), backEnd.getProgram(this)};
             }
         });
+        director.runProject("xx은행 리뉴얼");
+
     }
 }
