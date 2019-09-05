@@ -1,24 +1,12 @@
 package programmerworld;
 
-public class FrontEnd implements Programmer {
-    private Language language;
-    private Library library;
+public abstract class FrontEnd<T extends Paper> extends Programmer<T> {
+    protected Language language;
+    protected Library library;
 
     @Override
-    public Program makeProgram(Paper paper) {
-        paper.setData(this);
-        return makeFrontEndProgram();
-    }
-
-    void setLanguage(Language language) {
-        this.language = language;
-    }
-
-    void setLibrary(Library library) {
-        this.library = library;
-    }
-
-    private Program makeFrontEndProgram() {
+    public Program makeProgram() {
         return new Program();
     }
+
 }

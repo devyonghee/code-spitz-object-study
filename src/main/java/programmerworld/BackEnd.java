@@ -1,12 +1,11 @@
 package programmerworld;
 
 public abstract class BackEnd<T extends Paper> extends Programmer<T> {
-    private Server server;
-    private Language language;
+    protected Server server;
+    protected Language language;
 
     @Override
-    public Program makeProgram(Paper paper) {
-        new Program();
+    public Program makeProgram() {
+        return new Program();
     }
-
 }
