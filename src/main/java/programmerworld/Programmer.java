@@ -1,12 +1,33 @@
 package programmerworld;
 
-abstract class Programmer<T extends Paper> {
-    public Program getProgram(T paper) {
-        setData(paper);
-        return makeProgram();
+public class Programmer {
+    public Programmer(Boolean isFrontEnd) {
+        this.isFrontEnd = isFrontEnd;
     }
 
-    abstract void setData(T paper);
+    public final boolean isFrontEnd;
 
-    abstract Program makeProgram();
+    private Language frontLanguage;
+    private Library frontLibrary;
+    private Server server;
+    private Language backEndLanguage;
+
+    public Program makeProgram(Paper paper) {
+        if (isFrontEnd) {
+            frontLanguage = paper.getFrontEndLanguage();
+            frontLibrary = paper.getFrontEndLibrary();
+        } else {
+            this.server = paper.getServer();
+            this.backEndLanguage = paper.getBackEndLanguage();
+        }
+        return isFrontEnd ? makeFrontEndProgram() : makeBackEndProgram();
+    }
+
+    private Program makeFrontEndProgram() {
+        return new Program();
+    }
+
+    private Program makeBackEndProgram() {
+        return new Program();
+    }
 }

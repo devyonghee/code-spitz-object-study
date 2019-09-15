@@ -12,9 +12,21 @@ public class Director {
 
     public void runProject(String name) {
         if (!projects.containsKey(name)) throw new RuntimeException("no project");
-        deploy(name, projects.get(name).run());
+        Paper paper = projects.get(name);
+        if (!paper.isClient) {
+            Programmer frontEnd = new Programmer(true), backEnd = new Programmer(false);
+            paper.setFrontEndProgrammer(frontEnd);
+            paper.setBackEndProgrammer(backEnd);
+            Program client = frontEnd.makeProgram(paper);
+            Program server = backEnd.makeProgram(paper);
+            deploy(name, client, server);
+        } else {
+            Programmer frontEnd = new Programmer(true);
+            paper.setProgrammer(frontEnd);
+            deploy(name, frontEnd.makeProgram(paper));
+        }
     }
 
-    public void deploy(String projectName, Program... programs) {
+    private void deploy(String projectName, Program... programs) {
     }
 }
